@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block 'btn' %}
+<li>
+  <a href="{% url 'cadastrar' %}" type="button" class="btn btn-primary" style="margin-right: 8px;">Cadastrar</a>
+</li>
+
+<li>
+  <a href="{% url 'login' %}" type="button" class="btn btn-light">Entrar</a>
+</li>
+{% endblock %}
+
+{% block 'conteudo' %}
+<div class="container">
+  <h1 class="text-white-50 text-center">Usuários Cadastrados:</h1>
+  <table class="table table-striped table-dark">
+    <tr>
+      <th>Id</th>
+      <th>Nome</th>
+      <th>Email</th>
+      <th>Usuario</th>
+      <th>Senha</th>
+      <th>Telefone</th>
+      <th>CEP</th>
+      <th>Cidade</th>
+      <th>Criado em</th>
+    </tr>
+
+    {% for usuario in usuarios %}
+    <tr>
+      <td>{{usuario.id_client}}</td>
+      <td>{{usuario.client_name}}</td>
+      <td>{{usuario.client_email}}</td>
+      <td>{{usuario.client_user}}</td>
+      <td>{{usuario.client_password}}</td>
+      <td>{{usuario.client_phone}}</td>
+      <td>{{usuario.client_cep}}</td>
+      <td>{{usuario.client_city}}</td>
+      <td>{{usuario.created_at}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

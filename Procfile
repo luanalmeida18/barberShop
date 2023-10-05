@@ -1,0 +1,1 @@
+web: gunicorn barberShop.wsgi
