@@ -1,21 +1,16 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-<<<<<<< HEAD
 from .models import Usuario, Horarios, Produtos
-=======
 from .models import Usuario, Horarios
->>>>>>> b0aef24c38fc6d21ed57ca5fd370d42804cf549b
+
 
 
 def barberHome(request):
     return render(request, 'barberHome.html')
 
-<<<<<<< HEAD
 def produtos(request):
     return render(request, 'produtos.html')
 
-=======
->>>>>>> b0aef24c38fc6d21ed57ca5fd370d42804cf549b
 def ambiente(request):
     return render(request, 'ambiente.html')
 
@@ -34,13 +29,9 @@ def cadastrar(request):
 def login(request):
     return render(request, 'login.html')
 
-<<<<<<< HEAD
 def produtos(request):
     return render(request, 'produtos.html')
 
-
-=======
->>>>>>> b0aef24c38fc6d21ed57ca5fd370d42804cf549b
 def usuarios(request):
 
     #Salvar os inputs no Banco de Dados
@@ -63,8 +54,6 @@ def usuarios(request):
     #Retorna os dados para a página de listagem
     return render(request, 'usuarios.html', usuarios)
 
-<<<<<<< HEAD
-=======
 def horarios(request):
     novo_horario = Horarios()
     novo_horario.primeiro = request.POST.get('primeiro', '')
@@ -81,4 +70,3 @@ def horarios(request):
     usuarios = {
         'usuarios': Horarios.objects.all(),
     }
->>>>>>> b0aef24c38fc6d21ed57ca5fd370d42804cf549b

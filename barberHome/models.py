@@ -26,7 +26,6 @@ class Usuario(models.Model):
             self.set_password(self.client_password)
         super(Usuario, self).save(*args, **kwargs)
 
-<<<<<<< HEAD
 class Horarios(models.Model):
       hora_inicio = models.TimeField(max_length=255)
       hora_fim = models.TimeField(max_length=255)
@@ -37,18 +36,6 @@ class Produtos(models.Model):
       valor = models.FloatField(max_length = 255)     
       destaque = models.BooleanField(default=True)
       
-=======
 class Valores(models.Model):
   corte_name = models.TextField(max_length = 255)
   corte_valor = models.FloatField(max_length = 255)
-
-class Horarios(models.Model):
-      primeiro = models.TimeField(max_length=255),
-      segundo = models.TimeField(max_length=255),
-      terceiro = models.TimeField(max_length=255),
-      quarto = models.TimeField(max_length=255),
-      quinto = models.TimeField(max_length=255),
-      sexto = models.TimeField(max_length=255),
-      setimo = models.TimeField(max_length=255),
-      oitavo = models.TimeField(max_length=255),
->>>>>>> b0aef24c38fc6d21ed57ca5fd370d42804cf549b
