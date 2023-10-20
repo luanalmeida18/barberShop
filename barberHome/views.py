@@ -1,9 +1,21 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-from .models import Usuario, Horarios, Produtos
-from .models import Usuario, Horarios
+from django.shortcuts import render, redirect
+from .forms import ContatoForm
+from django.contrib.auth.decorators import login_required
+from .models import Produtos
+
+from django.conf import settings
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
 
 
+def sendmail_contact(data):
+    message_body = get_template('send.html').render(data)
+    
+    email = EmailMessage('Formulário de Contato', message_body, settings.DEFAULT_FROM_EMAIL, to =[ 'univespteste1@gmail.com'])
+    email.content_subtype = 'html'
+    
+    return email.send()
 
 def barberHome(request):
     return render(request, 'barberHome.html')
@@ -11,17 +23,37 @@ def barberHome(request):
 def produtos(request):
     return render(request, 'produtos.html')
 
-def ambiente(request):
-    return render(request, 'ambiente.html')
+def agendamento(request):
+    if request.user.is_authenticated:
+        return render(request, 'agendamento.html')
+    else:
+        return redirect('login')
 
 def galeria(request):
     return render(request, 'galeria.html')
 
-def contato(request):
-    return render(request, 'contato.html')
-
-def usuarios(request):
-    return render(request, 'usuarios.html')
+def contactMe(request):
+    if request.method == 'POST':
+        form = ContatoForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.save()
+            
+            data = {
+                'name': request.POST.get('name'),
+                'email': request.POST.get('email'),
+                'subject': request.POST.get('subject'),
+                'message': request.POST.get('message'),
+            }
+            
+            sendmail_contact(data)
+            
+            
+            return redirect('contato')
+    else:
+        form = ContatoForm()
+            
+    return render(request, 'contato.html', {'form': form})
 
 def cadastrar(request):
     return render(request, 'cadastrar.html')
@@ -29,44 +61,23 @@ def cadastrar(request):
 def login(request):
     return render(request, 'login.html')
 
-def produtos(request):
-    return render(request, 'produtos.html')
+def salvar_produto(request):
+    # Crie uma instância do modelo com os valores desejados
+    produto = Produtos(
+        prod_nome='Produto A',
+        prod_descricao='Descrição do Produto A',
+        prod_valor=19.99,
+        prod_destaque=True
+    )
 
-def usuarios(request):
+    # Salve o objeto no banco de dados
+    produto.save()
 
-    #Salvar os inputs no Banco de Dados
-    novo_usuario = Usuario()
-    novo_usuario.client_name = request.POST.get('client_name', '')
-    novo_usuario.client_email = request.POST.get('client_email', '')
-    novo_usuario.client_user = request.POST.get('client_user', '')
-    novo_usuario.client_password = request.POST.get('client_password', '')
-    novo_usuario.client_phone = request.POST.get('client_phone', '')
-    novo_usuario.client_cep = request.POST.get('client_cep', '')
-    novo_usuario.client_city = request.POST.get('client_city', '')
-    
-    novo_usuario.save()
-    
-    #Exibir os usuarios cadastrados na tela
-    usuarios = {
-        'usuarios': Usuario.objects.all(),
-    }
-    
-    #Retorna os dados para a página de listagem
-    return render(request, 'usuarios.html', usuarios)
+    return HttpResponse("Produto salvo com sucesso!")
 
-def horarios(request):
-    novo_horario = Horarios()
-    novo_horario.primeiro = request.POST.get('primeiro', '')
-    novo_horario.segundo = request.POST.get('segundo', '')
-    novo_horario.terceiro = request.POST.get('terceiro', '')
-    novo_horario.quarto = request.POST.get('quarto', '')
-    novo_horario.quinto = request.POST.get('quinto','')
-    novo_horario.sexto = request.POST.get('sexto','')
-    novo_horario.setimo = request.POST.get('setimo','')
-    novo_horario.oitavo = request.POST.get('oitavo','')
-    
-    novo_horario.save()
-    
-    usuarios = {
-        'usuarios': Horarios.objects.all(),
-    }
+
+
+def listar_produtos(request):
+    produtos = Produtos.objects.all()  # Recupere todos os produtos
+    return render(request, 'produtos.html', {'produtos': produtos})
+

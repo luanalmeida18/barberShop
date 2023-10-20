@@ -100,24 +100,33 @@
         </button>
 
         <div class="collapse navbar-collapse" id="menu-princial">
-          <ul class="navbar-nav" style="margin-left: 70%;">
+          <ul class="navbar-nav" style="margin-left: 60%;">
             <li class="nav-item">
               <a href="{% url 'barberHome' %}" class="nav-link">Início</a>
             </li>
             <li class="nav-item">
-              <a href="{% url 'ambiente' %}" class="nav-link">Ambiente</a>
+              <a href="{% url 'produtos' %}" class="nav-link">Produtos</a>
             </li>
+          
             <li class="nav-item">
               <a href="{% url 'galeria' %}" class="nav-link">Galeria</a>
             </li>
             <li class="nav-item">
               <a href="{% url 'contato' %}" class="nav-link">Contato</a>
             </li>
-            {% block 'btn' %}
-            <li>
-              <a href="{% url 'login' %}" type="button" class="btn btn-light">Entrar</a>
-            </li>
-            {% endblock %}
+            <div class="d-flex gap-3 align-items-center">
+              {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a href="{% url 'agendamento' %}" class="nav-link">Agendamento</a>
+                </li>
+                  <a class="btn btn-outline-danger" href="{% url 'logout' %}">Sair</a>
+
+              {% else %}
+                  <a class="btn btn-outline-primary" href="{% url 'login' %}">Entrar</a>
+                  <a class="btn btn-success" href="{% url 'register' %}">Registrar</a>
+              {% endif %} 
+
+          </div>
 
             {% block 'cadlog' %}
           
@@ -129,8 +138,12 @@
   </header>
 
 <div class="container">
-  {% block 'conteudo' %}
-  {% endblock %}
+  {% if user.is_authenticated %}
+			<h1>Olá, {{user.username}}</h1>  
+		{% endif %} 
+			 
+    {% block 'conteudo' %}
+    {% endblock %}
 </div>
 
 
@@ -161,6 +174,7 @@
     </div>
   </footer>
 
+  {% block scripts %}{% endblock scripts %} 
 
     <!-- JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

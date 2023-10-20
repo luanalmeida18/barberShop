@@ -20,15 +20,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'uni_form',
     'barberHome',
-    'usuarios',
     'crispy_forms',
     ]
 
@@ -127,17 +126,22 @@ MEDIA_URL = '/imagens/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#Config Auth
-AUTH_USER_MODEL = 'usuarios.Users'
-
-#Role permissions
-ROLEPERMISSION_MODULE = 'barberShop.barberShop.roles'
-
-
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+MAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'univespteste1@gmail.com'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_HOST_USER = 'univespteste1@gmail.com'
+EMAIL_HOST_PASSWORD = 'Univesp@2023'
 
 
 

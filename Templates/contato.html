@@ -15,5 +15,12 @@ BarberShop - Contato
 {% endblock %}
 
 {% block 'conteudo' %}
-<h1 class="text-white-50">Contato</h1>
+
+  <form method="POST" autocomplete="off">
+    <h4 class="text-white-50">Entre em contato conosco</h4>
+    {% csrf_token %}
+    {{ form }}    
+    <button type="submit" class="btn btn-success">Enviar</button>
+  </form>
+  
 {% endblock %}

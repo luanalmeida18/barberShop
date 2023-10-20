@@ -25,17 +25,21 @@ class Usuario(models.Model):
         if self.client_password:
             self.set_password(self.client_password)
         super(Usuario, self).save(*args, **kwargs)
-
-class Horarios(models.Model):
-      hora_inicio = models.TimeField(max_length=255)
-      hora_fim = models.TimeField(max_length=255)
       
 class Produtos(models.Model):
-      nome = models.CharField(max_length = 255)
-      descricao = models.CharField(max_length = 255)
-      valor = models.FloatField(max_length = 255)     
-      destaque = models.BooleanField(default=True)
+      prod_nome = models.CharField(max_length = 255)
+      prod_descricao = models.CharField(max_length = 255)
+      prod_valor = models.DecimalField(max_digits=10, decimal_places=2)  
+      prod_destaque = models.BooleanField(default=False)
+      
       
 class Valores(models.Model):
   corte_name = models.TextField(max_length = 255)
   corte_valor = models.FloatField(max_length = 255)
+
+class Contato(models.Model):
+  name = models.CharField(max_length=100)
+  email = models.EmailField(max_length=100)
+  subject = models.CharField(max_length=100)
+  message = models.TextField()
+  
