@@ -69,6 +69,36 @@
     calendar.render();
   });
 
+  //Mascara de entrada de contato modal cadastro
+  function FormatTel(evento, objeto){
+    var keypress = (window.event)?event.keyCode:evento.which;
+    campo = eval (objeto);
+    if (campo.value == '(00) 00000-0000'){
+      campo.value = ""
+    }
+
+    caracteres = '0123456789';
+    separacao1 = '(';
+    separacao2 = ')';
+    separacao3 = ' ';
+    separacao4 = '-';
+    conjunto1 = 0;
+    conjunto2 = 3;
+    conjunto3 = 10;
+
+    if ((caracteres.search(String.fromCharCode (keypress)) !=-1) && campo.value.length < (15)){
+      if (campo.value.length == conjunto1)
+      campo.value = campo.value + separacao1;
+      else if (campo.value.length == conjunto2)
+      campo.value = campo.value + separacao2 + separacao3;
+      else if (campo.value.length == conjunto3)
+      campo.value = campo.value + separacao4;
+  }else {
+      event.returnValue = false;
+    }
+  }
+
+
 </script>
 {% endblock %}
 
@@ -85,14 +115,15 @@
 {% block 'conteudo' %}
 <div class="modal fade" id="cadastrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
-  <div class="modal-content">
+  <div class="modal-content rounded">
     <div class="modal-header" style="margin-top: 15px;">
-      < <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <button type="button" class="close bg-transparent border-0 text-secondary" style="font-size: 30px;" data-dismiss="modal">&times;</button>
   </div>
 
-  <div class="container m-5">
+  <div class="container m-5 w-50">
     <div class="modal-body">
-      <form>
+      <form class="w-50" method="post">
+
         <div style="margin-right: 10px; margin-top: 4px">
           <label for="name">Nome</label><br>
           <input class="rounded" type="text" placeholder="Digite aqui..">
@@ -105,18 +136,14 @@
 
         <div style="margin-right: 10px; margin-top: 4px">
           <label for="name">Contato</label><br>
-          <input class="rounded" type="text" placeholder="Digite aqui..">
+          <input class="rounded" type="text" placeholder="Digite aqui.." onkeypress="FormatTel(event, this)">
         </div>
 <br>
         <div class="dropdown">
           <label for="hora-disponivel">Horários Disponíveis</label><br>
 
           <select name="horarios" id="" class="btn border-dark">
-            <option value=""><a class="dropdown-item" href="#">08:00 às 09:00</a></option>
-            <option value=""><a class="dropdown-item" href="#">09:00 às 10:00</a></option>
-            <option value=""><a class="dropdown-item" href="#">10:00 às 11:00</a></option>
-            <option value=""><a class="dropdown-item" href="#">11:00 às 12:00</a></option>
-            <option value=""><a class="dropdown-item" href="#">12:00 às 13:00</a></option>
+            <option value="{{ horarios.horarios }}">{{ horarios.horarios }}</option>
           </select>
                       <br><br>
           <input type="button" value="Cadastrar" class="btn btn-success">
@@ -135,8 +162,7 @@
     <div class="modal-content">
       <div class="modal-header" style="margin-top: 15px;">
         <h2 class="modal-title m-auto" id="exampleModalLabel">Mostrar Evento</h2>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
+        <button type="button" class="close bg-transparent border-0 text-secondary" style="font-size: 30px;" data-dismiss="modal">&times;</button>
       </button>
     </div>
 

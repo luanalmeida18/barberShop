@@ -2,7 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import ContatoForm
 from django.contrib.auth.decorators import login_required
-from .models import Produtos
+from .models import Produtos, horarios
+from django.contrib import messages
 
 from django.conf import settings
 from django.template.loader import get_template
@@ -48,15 +49,12 @@ def contactMe(request):
             
             sendmail_contact(data)
             
-            
             return redirect('contato')
     else:
         form = ContatoForm()
             
     return render(request, 'contato.html', {'form': form})
 
-def cadastrar(request):
-    return render(request, 'cadastrar.html')
 
 def login(request):
     return render(request, 'login.html')
@@ -76,8 +74,11 @@ def salvar_produto(request):
     return HttpResponse("Produto salvo com sucesso!")
 
 
-
 def listar_produtos(request):
     produtos = Produtos.objects.all()  # Recupere todos os produtos
     return render(request, 'produtos.html', {'produtos': produtos})
+
+def listar_horarios(request):
+    horario_disponivel = horarios.objects.all()
+    return render(request, 'agendamentos.html', {'horario_disponivel': horario_disponivel})
 

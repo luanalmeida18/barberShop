@@ -1,36 +1,4 @@
 {% extends 'base.html' %}
 
-{% block 'btn' %}
-<li>
-  <a href="{% url 'cadastrar' %}" type="button" class="btn btn-primary" style="margin-right: 8px;">Cadastrar</a>
-</li>
+{% block 'titulo' %}Nossos produtos{% endblock %}
 
-<li>
-  <a href="{% url 'login' %}" type="button" class="btn btn-light">Entrar</a>
-</li>
-{% endblock %}
-
-{% block 'titulo' %} Produtos Salão {% endblock %}
-
-{% block 'conteudo' %}  
-    <!-- Conteudo - Inicio -->
-        <div class="breadcrumb-area bg-12 text-center">
-            <div class="container">
-                <h2>Produtos</h2>
-            </div>
-        </div>
-    <!-- Conteudo - Fim -->
-
-    {% for produto in produtos %}
-            <li>
-                <strong>{{ produto.prod_nome }}</strong>
-                <p>{{ produto.prod_descricao }}</p>
-                <p>Valor: R$ {{ produto.prod_valor }}</p>
-                {% if produto.prod_destaque %}
-                    <p><strong>Destaque</strong></p>
-                {% endif %}
-            </li>
-    {% empty %}
-        <p>Nenhum produto disponível no momento.</p>
-    {% endfor %}
-    {% endblock %}

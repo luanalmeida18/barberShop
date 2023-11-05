@@ -11,3 +11,5 @@ class ContatoForm(forms.ModelForm):
     for field_name, field in kwargs.items():
       field.widget.attrs['class'] = 'form control'
   
+  
+    

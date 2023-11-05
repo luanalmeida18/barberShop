@@ -14,13 +14,44 @@ BarberShop - Contato
 </li>
 {% endblock %}
 
-{% block 'conteudo' %}
+{% if messages %}
+  <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
 
+{% block 'conteudo' %}
+<div class="container text-center">
+  <div id="alert-container"></div>
   <form method="POST" autocomplete="off">
     <h4 class="text-white-50">Entre em contato conosco</h4>
     {% csrf_token %}
-    {{ form }}    
-    <button type="submit" class="btn btn-success">Enviar</button>
+    {{ form.as_p }}    
+    
+    <a href="mailto:univespteste1@gmail.com?subject=Contato pelo Formulário">
+      <button type="submit" class="btn btn-success" onclick="exibirAlerta()">Enviar</button>
   </form>
-  
+</div>
+
+  {% block scripts %} 
+    <script>
+      function exibirAlerta() {
+          var alertContainer = document.getElementById('alert-container');
+          var alertDiv = document.createElement('div');
+          alertDiv.className = 'alert alert-success'; // Estilo CSS do alerta
+          alertDiv.textContent = 'Mensagem enviada com sucesso!';
+          alertContainer.appendChild(alertDiv);
+      
+          // Remover o alerta após um período de tempo (por exemplo, 5 segundos)
+          setTimeout(function() {
+              alertContainer.removeChild(alertDiv);
+          }, 5000); // 5000 milissegundos = 5 segundos
+      }
+    </script>
+  {% endblock %}
 {% endblock %}
+
+
+

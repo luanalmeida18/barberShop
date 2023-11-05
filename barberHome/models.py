@@ -43,3 +43,10 @@ class Contato(models.Model):
   subject = models.CharField(max_length=100)
   message = models.TextField()
   
+class horarios(models.Model):
+      data = models.TextField(max_length = 30)
+      hora = models.TextField(max_length = 10)
+      
+class horarios_disponivel(models.Model):
+      horarios.hora
+  
