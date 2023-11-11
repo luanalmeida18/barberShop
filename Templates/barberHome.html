@@ -55,24 +55,36 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
-    <div class="row align-items-start mt-20">
+
+<!-- Terminar a parte de destaque -->
+{% for produto in produtos %}  
+    {% if produto.prod_destaque == True %}
+    <div class="card col-md-4 mb-4 m-2" style="width: 15rem;">
+        <img class="card-img-top" src="{{ produto.imagem.url }}" alt="{{ produto.prod_nome }}" style="padding-top: 1rem;">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <h5 class="card-title">{{ produto.prod_nome }}</h5>
+          <p class="card-text">{{ produto.prod_descricao }}</p>
+    </div>
+    {% endif %}
+{% endfor %}
+    <!-- <div class="row align-items-start mt-20">
         <div class="col-12 col-md-4">
             <img class="img-fluid rounded-circle" src="{% static 'img/modelo/pomada.png' %}" alt="" width="140px">
             <h5 class="text-white mt-1">Produto Imagem Modelo</h5>
-            <p class="text-white-50">Apresenta a descrição da imagem.</p>
+            <p class="text-white-50">Descrição do produto.</p>
         </div>
         <div class="col-12 col-md-4">
             <img class="img-fluid rounded-circle" src="{% static 'img/modelo/spray.png' %}" alt="" width="140px">
             <h5 class="text-white mt-1">Produto Imagem Modelo</h5>
-            <p class="text-white-50">Apresenta a descrição da imagem.</p>
+            <p class="text-white-50">Descrição do produto.</p>
         </div>
         <div class="col-12 col-md-4">
             <img class="img-fluid rounded-circle" src="{% static 'img/profile.png' %}" alt="" width="140px">
             <h5 class="text-white mt-1">Produto Imagem Modelo</h5>
-            <p class="text-white-50">Apresenta a descrição da imagem.</p>
+            <p class="text-white-50">Descrição do produto.</p>
         </div>
     </div>
-</div>
+</div> -->
 
     <!-- Conteudo - Fim -->
 {% endblock %}

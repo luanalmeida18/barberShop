@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import barberHome, agendamento, galeria, contactMe, login, produtos
+from .views import barberHome, agendamento, galeria, contactMe, login, produtos, lista_produtos
 from barberHome import views
 from . import views
 
@@ -9,5 +9,6 @@ urlpatterns = [
     path('galeria/', galeria, name='galeria'),
     path('contato/', views.contactMe, name='contato'),
     path('login/', login, name='login'),
-    path('produtos/', produtos, name='produtos'),
+    path('produtos/', lista_produtos, name='lista_produtos'),
+    
 ]

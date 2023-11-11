@@ -74,9 +74,11 @@ def salvar_produto(request):
     return HttpResponse("Produto salvo com sucesso!")
 
 
-def listar_produtos(request):
+def lista_produtos(request):
     produtos = Produtos.objects.all()  # Recupere todos os produtos
     return render(request, 'produtos.html', {'produtos': produtos})
+
+
 
 def listar_horarios(request):
     horario_disponivel = horarios.objects.all()

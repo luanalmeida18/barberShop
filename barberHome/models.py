@@ -31,6 +31,10 @@ class Produtos(models.Model):
       prod_descricao = models.CharField(max_length = 255)
       prod_valor = models.DecimalField(max_digits=10, decimal_places=2)  
       prod_destaque = models.BooleanField(default=False)
+      imagem = models.ImageField(upload_to='static/img/produtos/', null=True, blank=False)
+
+      def __str__(self):
+        return self.prod_nome
       
       
 class Valores(models.Model):
