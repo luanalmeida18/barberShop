@@ -1,5 +1,4 @@
 import hashlib
-
 from django.db import models
 
 class Usuario(models.Model):
@@ -53,4 +52,4 @@ class horarios(models.Model):
       
 class horarios_disponivel(models.Model):
       horarios.hora
-  
+      

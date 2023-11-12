@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import ContatoForm
 from django.contrib.auth.decorators import login_required
-from .models import Produtos, horarios
+from .models import Produtos
 from django.contrib import messages
 
 from django.conf import settings
@@ -79,8 +79,4 @@ def lista_produtos(request):
     return render(request, 'produtos.html', {'produtos': produtos})
 
 
-
-def listar_horarios(request):
-    horario_disponivel = horarios.objects.all()
-    return render(request, 'agendamentos.html', {'horario_disponivel': horario_disponivel})
 
