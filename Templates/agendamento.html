@@ -3,45 +3,69 @@
 
 {% block 'titulo' %}Agende seu horário{% endblock %}
 
-<style>
-
-  html, body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-    font-size: 14px;
-  }
-
-  #calendar {
-    max-width: 1100px;
-    margin: 40px auto;
-  }
-
-</style>
-
-{% block extra_head %}
-
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
-
-
-<script src='/docs/dist/demo-to-codepen.js'></script>
-
-
-
-{% endblock %}
-
-{% block 'btn' %}
-<!-- <li>
-<a href="{% url 'cadastrar' %}" type="button" class="btn btn-primary" style="margin-right: 8px;">Cadastrar</a>
-</li> -->
-
-<li>
-<a href="{% url 'barberHome' %}" type="button" class="btn btn-danger">Sair</a>
-</li>
-{% endblock %}
 
 {% block 'conteudo' %}
-<h1>Agenda</h1>
+  <h1>Agenda</h1>
+
+  <form method="post" action="{% url 'agendamento' %}">
+    {% csrf_token %}
+    
+    <label for="id_nome">Nome:</label>
+    <input type="text" id="id_nome" name="nome_cliente" class="form-control" required>
+    
+    <label for="id_email">Email:</label>
+    <input type="email" id="id_email" name="email" class="form-control" required>
+    
+    <label for="id_data_agendamento">Data de Agendamento:</label>
+    <input type="date" id="id_data_agendamento" name="data_agendamento" class="form-control" required>
+
+    <label for="id_horario">Horário Disponível:</label>
+    <select id="id_horario" name="horario_agendamento" class="form-control" required>
+        <!-- Opções de horário serão preenchidas dinamicamente via JavaScript -->
+    </select>
+
+    <input type="submit" class="btn btn-outline-danger mt-4 mb-4" value="Agendar">
+</form>
+
+  <h2>Horários Disponíveis</h2>
+  <ul>
+    {% for horario in horarios_disponiveis %}
+        <li>{{ horario }}</li>
+    {% endfor %}
+  </ul>
+
+
+
+
+
+  <script>
+    // Adicione um listener para o evento de mudança na data
+    document.getElementById('id_data_agendamento').addEventListener('change', function() {
+        // Chame uma função JavaScript para buscar e preencher os horários disponíveis
+        fetchHorariosDisponiveis(this.value);
+    });
+
+    function fetchHorariosDisponiveis(dataSelecionada) {
+        // Faça uma requisição AJAX para obter os horários disponíveis com base na data selecionada
+        // Substitua 'sua_url' pela URL correta para buscar os horários no seu projeto
+        fetch('/obter_horarios_disponiveis/?data=' + dataSelecionada)
+            .then(response => response.json())
+            .then(data => {
+                // Preencha o dropdown de horários com os dados obtidos
+                const horarioSelect = document.getElementById('id_horario');
+                horarioSelect.innerHTML = ""; // Limpa opções anteriores
+
+                data.forEach(horario => {
+                    const option = document.createElement('option');
+                    option.value = horario;
+                    option.text = horario;
+                    horarioSelect.add(option);
+                });
+            })
+            .catch(error => console.error('Erro ao obter horários:', error));
+    }
+</script>
+
 {% endblock %}
 
 

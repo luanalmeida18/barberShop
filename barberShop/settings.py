@@ -16,6 +16,25 @@ SECRET_KEY = 'django-insecure-2k7v+i=3m=*jptxb%(ybme!u^+3(z%&*b9gg70enu51^yxwq(%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",  # Adapte para o seu ambiente de desenvolvimento
+]
+
+
 ALLOWED_HOSTS = []
 
 
