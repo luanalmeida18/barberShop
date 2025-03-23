@@ -1,11 +1,15 @@
+import hashlib
 from django.db import models
 
 class Agendamento(models.Model):
     nome_cliente = models.CharField(max_length=255, default='')
     email = models.EmailField()
     data_agendamento = models.DateField()
-    horario_agendamento = models.TimeField(default='00:00:00')  # Adicione esta linha
+    horario_agendamento = models.TimeField()
     agendado = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('data_agendamento', 'horario_agendamento')
 
 class Usuario(models.Model):
     id_client = models.AutoField(primary_key=True)
@@ -22,7 +26,6 @@ class Usuario(models.Model):
         return self.client_user
 
     def set_password(self, password):
-        # Gere o hash da senha
         client_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
         self.client_password = client_password
 
@@ -43,7 +46,7 @@ class Produtos(models.Model):
 
 class Valores(models.Model):
     corte_name = models.TextField(max_length=255)
-    corte_valor = models.FloatField(max_length=255)
+    corte_valor = models.FloatField()
 
 class Contato(models.Model):
     name = models.CharField(max_length=100)
@@ -51,9 +54,22 @@ class Contato(models.Model):
     subject = models.CharField(max_length=100)
     message = models.TextField()
 
+from django.db import models
+
 class Horarios(models.Model):
-    data = models.TextField(max_length=30)
-    hora = models.TextField(max_length=10)
+    data = models.DateField()
+    hora = models.TimeField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['data', 'hora'], name='unique_data_hora')
+        ]
+
+    def __str__(self):
+        return f'{self.data} {self.hora}'
 
 class HorariosDisponivel(models.Model):
     horario = models.ForeignKey(Horarios, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.horario}'

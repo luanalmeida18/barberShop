@@ -4,8 +4,8 @@
 
 {% block 'conteudo' %}
 
-<div class="col-md-4" style="margin: auto;">
-    <form method="post" class="m-5" >
+<div class="col-md-4 m-auto">
+    <form method="post">
         {% csrf_token %}
 
         <div class="mb-3">
@@ -16,10 +16,11 @@
         <div class="mb-3">
             <label class="form-label" for="id_password">Senha:</label>
             <input type="password" name="password" class="form-control">
-            <a href="{% url 'password_reset' %}" class="mt-2 mb-1">Esqueci minha senha</a> <br>
-            <button class="btn btn-warning" type="submit">Entrar</button>
         </div>
-
+        <div class="d-block">
+            <a href="{% url 'password_reset' %}" style="margin-left: 60%;">Esqueci minha senha</a>
+        </div>
+        <button class="btn btn-warning mt-10" type="submit">Entrar</button>
     </form>
     
 </div>

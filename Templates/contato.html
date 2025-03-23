@@ -25,14 +25,13 @@ BarberShop - Contato
 {% block 'conteudo' %}
 <div class="container text-center">
   <div id="alert-container"></div>
-  <form method="POST" autocomplete="off" style="width: 50%; margin: auto; text-align: start " >
-    <h4 class="text-white-50 text-center">Entre em contato conosco</h4>
+  <form method="POST" autocomplete="off">
+    <h4 class="text-white-50">Entre em contato conosco</h4>
     {% csrf_token %}
     {{ form.as_p }}    
     
     <a href="mailto:univespteste1@gmail.com?subject=Contato pelo Formulário">
       <button type="submit" class="btn btn-success" onclick="exibirAlerta()">Enviar</button>
-      <button type="submit" class="btn btn-danger" onclick="exibirAlerta()">Cancelar</button>
   </form>
 </div>
 

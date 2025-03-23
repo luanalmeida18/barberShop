@@ -13,4 +13,5 @@ urlpatterns = [
     path('lista-produtos/', lista_produtos, name='lista_produtos'),
     path('obter_horarios_disponiveis/', obter_horarios_disponiveis, name='obter_horarios_disponiveis'),
     path('sucesso_agendamento/', sucesso_agendamento, name='sucesso_agendamento'),
+    path('verificar_disponibilidade/', views.verificar_disponibilidade, name='verificar_disponibilidade'),
 ]

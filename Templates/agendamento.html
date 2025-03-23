@@ -3,70 +3,83 @@
 
 {% block 'titulo' %}Agende seu horário{% endblock %}
 
-
 {% block 'conteudo' %}
-  <h1>Agenda</h1>
+    <h1>Agenda</h1>
+    <div class="w-25 align-items-start mt-30">
+        <form method="post" action="{% url 'agendamento' %}">
+            {% csrf_token %}
+            
+            <label for="id_nome">Nome:</label>
+            <input type="text" id="id_nome" name="nome_cliente" class="form-control" required>
+            
+            <label for="id_email">Email:</label>
+            <input type="email" id="id_email" name="email" class="form-control" required>
+            
+            <label for="id_data_agendamento">Data de Agendamento:</label>
+            <input type="date" id="id_data_agendamento" name="data_agendamento" class="form-control" required>
 
-  <form method="post" action="{% url 'agendamento' %}" class="w-50">
-    {% csrf_token %}
-    
-    <label for="id_nome">Nome:</label>
-    <input type="text" id="id_nome" name="nome_cliente" class="form-control w-50 mb-2" required>
-    
-    <label for="id_email">Email:</label>
-    <input type="email" id="id_email" name="email" class="form-control w-50 mb-2" required>
-    
-    <label for="id_data_agendamento">Data de Agendamento:</label>
-    <input type="date" id="id_data_agendamento" name="data_agendamento" class="form-control w-50 mb-2" required>
+            <label for="id_horario">Horário Disponível:</label>
+            <select id="id_horario" name="horario_agendamento" class="form-control" required>
+                </select>
 
-    <label for="id_horario">Horário Disponível:</label>
-    <select id="id_horario" name="horario_agendamento" class="form-control w-25" required>
-        <!-- Opções de horário serão preenchidas dinamicamente via JavaScript -->
-    </select>
+            <p id="mensagem_disponibilidade"></p> 
 
-    <input type="submit" class="btn btn-outline-danger mt-4 mb-4" value="Agendar">
-</form>
+            <input type="submit" class="btn btn-outline-danger mt-4 mb-4" value="Agendar">
+        </form>
+    </div>
 
-  <h2>Horários Disponíveis</h2>
-  <ul>
-    {% for horario in horarios_disponiveis %}
-        <li>{{ horario }}</li>
-    {% endfor %}
-  </ul>
+    <h2>Horários Disponíveis</h2>
+    <ul>
+        {% for horario in horarios_disponiveis %}
+            <li>{{ horario }}</li>
+        {% endfor %}
+    </ul>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dataInput = document.getElementById('id_data_agendamento');
+            const horarioInput = document.getElementById('id_horario');
+            const mensagemDisponibilidade = document.getElementById('mensagem_disponibilidade');
 
+            function verificarDisponibilidade() {
+                const dataSelecionada = dataInput.value;
+                const horarioSelecionado = horarioInput.value;
 
+                if (dataSelecionada && horarioSelecionado) {
+                    fetch(`/verificar_disponibilidade/?data=${dataSelecionada}&horario=${horarioSelecionado}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.disponivel) {
+                                mensagemDisponibilidade.textContent = 'Horário disponível!';
+                                mensagemDisponibilidade.style.color = 'green';
+                            } else {
+                                mensagemDisponibilidade.textContent = 'Horário indisponível.';
+                                mensagemDisponibilidade.style.color = 'red';
+                            }
+                        });
+                } else {
+                    mensagemDisponibilidade.textContent = '';
+                }
+            }
 
+            dataInput.addEventListener('change', function () {
+                const dataSelecionada = this.value;
 
-  <script>
-    // Adicione um listener para o evento de mudança na data
-    document.getElementById('id_data_agendamento').addEventListener('change', function() {
-        // Chame uma função JavaScript para buscar e preencher os horários disponíveis
-        fetchHorariosDisponiveis(this.value);
-    });
+                fetch(`/obter_horarios_disponiveis/?data=${dataSelecionada}`)
+                    .then(response => response.json())
+                    .then(horarios => {
+                        horarioInput.innerHTML = ''; // Limpa as opções existentes
+                        horarios.forEach(horario => {
+                            const option = document.createElement('option');
+                            option.value = horario;
+                            option.textContent = horario;
+                            horarioInput.appendChild(option);
+                        });
+                        verificarDisponibilidade(); 
+                    });
+            });
 
-    function fetchHorariosDisponiveis(dataSelecionada) {
-        // Faça uma requisição AJAX para obter os horários disponíveis com base na data selecionada
-        // Substitua 'sua_url' pela URL correta para buscar os horários no seu projeto
-        fetch('/obter_horarios_disponiveis/?data=' + dataSelecionada)
-            .then(response => response.json())
-            .then(data => {
-                // Preencha o dropdown de horários com os dados obtidos
-                const horarioSelect = document.getElementById('id_horario');
-                horarioSelect.innerHTML = ""; // Limpa opções anteriores
-
-                data.forEach(horario => {
-                    const option = document.createElement('option');
-                    option.value = horario;
-                    option.text = horario;
-                    horarioSelect.add(option);
-                });
-            })
-            .catch(error => console.error('Erro ao obter horários:', error));
-    }
-</script>
-
+            horarioInput.addEventListener('change', verificarDisponibilidade);
+        });
+    </script>
 {% endblock %}
-
-
-  

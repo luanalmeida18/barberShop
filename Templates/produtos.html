@@ -13,8 +13,16 @@
         <div class="card-body d-flex flex-column justify-content-between">
           <h5 class="card-title">{{ produto.prod_nome }}</h5>
           <p class="card-text">{{ produto.prod_descricao }}</p>
-          <p class="card-text">Valor: R$ {{ produto.prod_valor }}</p>
-          <a href="#" class="btn btn-primary">Adicionar ao carrinho</a>
+          <div class="d-grid">
+            {% if user.is_authenticated %}
+            <p class="card-text text-bg-dark text-center rounded-4">Valor: R$ {{ produto.prod_valor }}</p>
+            <a href="#" class="btn btn-primary btn-sm rounded-4 align-items-center">Adicionar ao carrinho</a>
+
+            {% else %}
+            <p class="card-text text-center">Valor: R$ ****</p>
+            <a href="#" class="btn btn-secondary disabled btn-sm rounded-4  align-items-center">Adicionar ao carrinho</a>
+            {% endif %}
+          </div>
         </div>
       </div>
     {% endfor %}
