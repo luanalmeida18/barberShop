@@ -5,53 +5,50 @@ BarberShop - Contato
 {% endblock %}
 
 {% block 'btn' %}
-<li>
-  <a href="{% url 'cadastrar' %}" type="button" class="btn btn-primary" style="margin-right: 8px;">Cadastrar</a>
+<li class="nav-item">
+    <a href="{% url 'cadastrar' %}" type="button" class="btn btn-primary mb-2 mb-md-0 mr-md-2">Cadastrar</a>
 </li>
-
-<li>
-  <a href="{% url 'login' %}" type="button" class="btn btn-light">Entrar</a>
+<li class="nav-item">
+    <a href="{% url 'login' %}" type="button" class="btn btn-light">Entrar</a>
 </li>
 {% endblock %}
 
 {% if messages %}
-  <ul class="messages">
-      {% for message in messages %}
-      <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-      {% endfor %}
-  </ul>
+    <ul class="messages">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 {% block 'conteudo' %}
 <div class="container text-center">
-  <div id="alert-container"></div>
-  <form method="POST" autocomplete="off">
-    <h4 class="text-white-50">Entre em contato conosco</h4>
-    {% csrf_token %}
-    {{ form.as_p }}    
-    
-    <a href="mailto:univespteste1@gmail.com?subject=Contato pelo Formulário">
-      <button type="submit" class="btn btn-success" onclick="exibirAlerta()">Enviar</button>
-  </form>
+    <div id="alert-container"></div>
+    <form method="POST" autocomplete="off" class="mt-4">
+        <h4 class="text-white-50 mb-4">Entre em contato conosco</h4>
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.as_p }}
+        </div>
+        <a href="mailto:univespteste1@gmail.com?subject=Contato pelo Formulário">
+            <button type="submit" class="btn btn-success w-100 w-md-auto">Enviar</button>
+        </a>
+    </form>
 </div>
 
-  {% block scripts %} 
-    <script>
-      function exibirAlerta() {
-          var alertContainer = document.getElementById('alert-container');
-          var alertDiv = document.createElement('div');
-          alertDiv.className = 'alert alert-success'; // Estilo CSS do alerta
-          alertDiv.textContent = 'Mensagem enviada com sucesso!';
-          alertContainer.appendChild(alertDiv);
-      
-          // Remover o alerta após um período de tempo (por exemplo, 5 segundos)
-          setTimeout(function() {
-              alertContainer.removeChild(alertDiv);
-          }, 5000); // 5000 milissegundos = 5 segundos
-      }
-    </script>
-  {% endblock %}
+{% block scripts %}
+<script>
+    function exibirAlerta() {
+        var alertContainer = document.getElementById('alert-container');
+        var alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success';
+        alertDiv.textContent = 'Mensagem enviada com sucesso!';
+        alertContainer.appendChild(alertDiv);
+
+        setTimeout(function() {
+            alertContainer.removeChild(alertDiv);
+        }, 5000);
+    }
+</script>
 {% endblock %}
-
-
-
+{% endblock %}

@@ -20,7 +20,7 @@
 
             <label for="id_horario">Horário Disponível:</label>
             <select id="id_horario" name="horario_agendamento" class="form-control" required>
-                </select>
+            </select>
 
             <p id="mensagem_disponibilidade"></p> 
 
@@ -29,10 +29,7 @@
     </div>
 
     <h2>Horários Disponíveis</h2>
-    <ul>
-        {% for horario in horarios_disponiveis %}
-            <li>{{ horario }}</li>
-        {% endfor %}
+    <ul id="lista_horarios_disponiveis">
     </ul>
 
     <script>
@@ -40,6 +37,7 @@
             const dataInput = document.getElementById('id_data_agendamento');
             const horarioInput = document.getElementById('id_horario');
             const mensagemDisponibilidade = document.getElementById('mensagem_disponibilidade');
+            const listaHorariosDisponiveis = document.getElementById('lista_horarios_disponiveis');
 
             function verificarDisponibilidade() {
                 const dataSelecionada = dataInput.value;
@@ -69,13 +67,20 @@
                     .then(response => response.json())
                     .then(horarios => {
                         horarioInput.innerHTML = ''; // Limpa as opções existentes
+                        listaHorariosDisponiveis.innerHTML = ''; // Limpa a lista de horários disponíveis
+
                         horarios.forEach(horario => {
                             const option = document.createElement('option');
                             option.value = horario;
                             option.textContent = horario;
                             horarioInput.appendChild(option);
+
+                            const listItem = document.createElement('li');
+                            listItem.textContent = horario;
+                            listaHorariosDisponiveis.appendChild(listItem);
                         });
-                        verificarDisponibilidade(); 
+
+                        verificarDisponibilidade();
                     });
             });
 

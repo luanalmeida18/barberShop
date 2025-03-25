@@ -10,7 +10,7 @@ from django.utils.dateparse import parse_time
 from datetime import datetime, date, time
 
 from .forms import ContatoForm, AgendamentoForm
-from .models import Produtos, Agendamento, Horarios
+from .models import Produtos, Agendamento, Horarios, HorariosDisponivel
 
 
 def parse_custom_time(value):
@@ -32,31 +32,26 @@ def agendamento_autenticado(request):
     """Exibe a página de agendamento para usuários autenticados."""
     return render(request, 'agendamento.html')
 
+from datetime import time
+from .models import Agendamento
 
 def horario_disponivel(data_agendamento, horario_agendamento):
-    """Verifica se um horário de agendamento está disponível."""
-    try:
-        if not isinstance(data_agendamento, date):
-            raise TypeError("data_agendamento deve ser um objeto datetime.date")
-        if not isinstance(horario_agendamento, time):
-            raise TypeError("horario_agendamento deve ser um objeto datetime.time")
+    if data_agendamento.weekday() in range(0, 5):  # Segunda a sexta
+        horario_comercial_inicio = time(9, 0)
+        horario_comercial_fim = time(17, 0)
 
-        if data_agendamento.weekday() in range(0, 5):  # Segunda a sexta
-            horario_comercial_inicio = time(9, 0)
-            horario_comercial_fim = time(17, 0)
+        if horario_comercial_inicio <= horario_agendamento < horario_comercial_fim:
+            if Agendamento.objects.filter(data_agendamento=data_agendamento, horario_agendamento=horario_agendamento).exists():
+                return False
+            return True
+    return False
 
-            if horario_comercial_inicio <= horario_agendamento < horario_comercial_fim:
-                if Agendamento.objects.filter(data_agendamento=data_agendamento, horario_agendamento=horario_agendamento).exists():
-                    return False
-                return True
-        return False
-    except TypeError as e:
-        print(f"Erro: {e}")
-        return False
-
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import AgendamentoForm
+from .models import Agendamento, Horarios
 
 def agendamento(request):
-    """Processa o formulário de agendamento."""
     if request.method == 'POST':
         form = AgendamentoForm(request.POST)
         if form.is_valid():
@@ -65,6 +60,10 @@ def agendamento(request):
 
             if horario_disponivel(data_agendamento, horario_agendamento):
                 form.save()
+
+                # Remove o horário da tabela Horarios
+                Horarios.objects.filter(data=data_agendamento, hora=horario_agendamento).delete()
+
                 messages.success(request, 'Agendamento realizado com sucesso!')
                 return redirect('agendamento')
             else:
@@ -77,8 +76,8 @@ def agendamento(request):
     return render(request, 'agendamento.html', {'form': form})
 
 
+
 def obter_horarios_disponiveis(request):
-    """Retorna os horários disponíveis para uma data específica."""
     data_selecionada = request.GET.get('data', None)
 
     if not data_selecionada:
@@ -89,12 +88,9 @@ def obter_horarios_disponiveis(request):
 
         horarios_disponiveis = Horarios.objects.filter(data=data_obj)
         agendamentos_na_data = Agendamento.objects.filter(data_agendamento=data_obj, agendado=True)
-        horarios_ocupados = {agendamento.horario_agendamento.hora for agendamento in agendamentos_na_data}
+        horarios_ocupados = {agendamento.horario_agendamento.strftime('%H:%M') for agendamento in agendamentos_na_data}
 
-        horarios_disponiveis_str = [horario.hora.strftime('%H:%M') for horario in horarios_disponiveis if horario.hora not in horarios_ocupados]
-
-        print(f"Data Selecionada: {data_selecionada}")
-        print(f"Horários Disponíveis: {horarios_disponiveis_str}")
+        horarios_disponiveis_str = [horario.hora.strftime('%H:%M') for horario in horarios_disponiveis if horario.hora.strftime('%H:%M') not in horarios_ocupados]
 
         return JsonResponse(horarios_disponiveis_str, safe=False)
 
@@ -102,7 +98,6 @@ def obter_horarios_disponiveis(request):
         return JsonResponse({"error": "Formato de data inválido. Use AAAA-MM-DD."}, status=400)
     except Exception as e:
         return JsonResponse({"error": f"Erro ao obter horários disponíveis: {str(e)}"}, status=500)
-
 
 def verificar_disponibilidade(request):
     """Verifica se um horário está disponível para agendamento."""

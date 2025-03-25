@@ -1,303 +1,44 @@
-<!-- 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
--->
-<!-- Favicon -->
-<link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+{% extends 'base.html' %}
+{% load static %}
 
-<!-- CSS -->
-<link rel="stylesheet" href="/static/css/bootstrap.min.css">
-<link rel="stylesheet" href="/static/css/font-awesome.min.css">
-<link rel="stylesheet" href="/static/css/ie7.css">
-<link rel="stylesheet" href="/static/css/plugins.css">
-<link rel="stylesheet" href="/static/css/style.css">
-<link rel="stylesheet" href="/static/js/vendor/modernizr-3.5.0.min.js">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+{% block 'titulo' %}Galeria{% endblock %}
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-<style>
-  
-  h4 a{
-    height: 35px;
-    padding: 5px;
-  }
-  
-  h4 a:hover{
-    transition: 1s;
-    color: rgb(255, 255, 255);
-  }
-  
-  .logo-link:hover{
-    transition: .6s;  
-  }
-  
-  .nav-link:hover{
-    zoom: 105%;
-    transition: 1ms;
-    color: #ffffff;
-  }
+{% block 'conteudo' %}
+    <h1 class="text-white-50 text-center mb-4">Galeria</h1>
 
-  .link:hover{
-    zoom: 105%;
-    transition: 1ms;
-    color: #ffffff;
-  }
-
-
-  .btn:hover{
-    transition: .1s;
-    filter: invert(1);
-  }
-
-
-
-  /* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: 5px;
-    scrollbar-color: #3d3d3d #ffffff;
-  }
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: transparent !important;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #e9e9e9;
-    border-radius: 0px;
-    border: 1px solid transparent;
-  }
-
-</style>
-
-
-<style>
-  body, html {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font: 16px "Lato", sans-serif;
-    color: #777;
-    height: 100%;
-  }
-
-  p {
-    margin-bottom: 20px;
-  }
-
-  .content > h3{
-    text-transform: uppercase;
-    color: #111;
-    text-align: center;
-  }
-
-  /* Efeito Parallax*/ 
-  .caixa1, .caixa2, .caixa3, .caixa4 {
-    height: 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    position: relative;
-  }
-
-  .caixa1 {
-    background-image: url('/static/img/galeria/image1.jpg');
-  }
-
-  .caixa2 {
-    background-image: url('/static/img/galeria/image2.jpg');
-  }
-
-  .caixa3 {
-    background-image: url('/static/img/galeria/image3.jpg');
-  }
-
-  .caixa4 {
-    background-image: url('/static/img/galeria/image1.jpg');
-  }
-
-  /* Titulo Conteudos*/
-  .conteudo-titulo {
-    position: absolute;
-    left: 0;
-    top: 50%;
-    width: 100%;
-    text-align: center;
-  }
-
-  .conteudo-titulo span.titulo {
-    color: #fff;
-    background-color: #111;
-    padding: 18px;
-    font-size: 25px;
-    letter-spacing: 5px;
-  }
-
-</style>
-
-
-  <title>
-Barbershop - Galeria
-</title>
-</head>
-
-<body class="content bg-dark">
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <div class="container">
-        <a href="#" class="navbar-brand m-auto">
-          <img src="/static/img/bigode.png" alt="logo" width="142";>
-        </a>
-
-        <button class="navbar-toggler"  data-toggle="collapse" data-target="#menu-princial">
-          <span class="navbar-toggler-icon"></span>
-          <div class="collapse navbar-collapse" id="menu-princial">
-        </button>
-
-        <div class="collapse navbar-collapse" id="menu-princial">
-          <ul class="navbar-nav" style="margin-left: 60%;">
-            <li class="nav-item">
-              <a href="/" class="nav-link">Início</a>
-            </li>
-            <li class="nav-item">
-              <a href="/lista-produtos/" class="nav-link">Produtos</a>
-            </li>
-          
-            <li class="nav-item">
-              <a href="/galeria/" class="nav-link">Galeria</a>
-            </li>
-            <li class="nav-item">
-              <a href="/contato/" class="nav-link">Contato</a>
-            </li>
-            <div class="d-flex gap-3 align-items-center">
-              
-                  <a class="btn btn-outline-primary" href="/accounts/login/">Entrar</a>
-                  <a class="btn btn-success" href="/register/">Registrar</a>
-               
-
-          </div>
-
-            
-          
-            
-          </ul>
+    <div class="caixa1 mb-4">
+        <div class="conteudo-titulo">
+            <span class="titulo">Caixa 1</span>
         </div>
-      </div>
-    </nav>
-  </header>
-
-<div class="container">
-   
-			 
-    
-<h1 class="text-white-50">Galeria</h1>
-
-  <div class="caixa1">
-    <div class="conteudo-titulo">
-      <span class="titulo">Caixa 1</span>
+        <img src="{% static 'img/galeria/image1.jpg' %}" alt="Imagem 1" class="img-fluid" style="max-width: 100%;">
     </div>
-  </div>
 
-  <div class="content">
-    <h3>Parallax</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias voluptate suscipit, laborum, debitis magni expedita iusto ducimus aspernatur non eveniet vero nulla repellat illum! Reprehenderit possimus unde autem inventore distinctio.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ea est provident quo quis debitis quia officiis, magnam eos sint blanditiis rerum quas temporibus modi praesentium! Obcaecati laudantium excepturi nesciunt!
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ratione praesentium, culpa mollitia possimus error et neque amet molestias adipisci alias repellat quos dolor suscipit repudiandae! Vero adipisci dolore deserunt!
-
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias voluptate suscipit, laborum, debitis magni expedita iusto ducimus aspernatur non eveniet vero nulla repellat illum! Reprehenderit possimus unde autem inventore distinctio.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ea est provident quo quis debitis quia officiis, magnam eos sint blanditiis rerum quas temporibus modi praesentium! Obcaecati laudantium excepturi nesciunt!
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ratione praesentium, culpa mollitia possimus error et neque amet molestias adipisci alias repellat quos dolor suscipit repudiandae! Vero adipisci dolore deserunt!
-  </p>
-  </div>
-
-  <div class="caixa2">
-    <div class="conteudo-titulo">
-      <span class="titulo">Caixa 2</span>
+    <div class="content mb-4">
+        <h3 class="text-center">Parallax</h3>
+        <p class="text-center">Conteúdo da caixa 1...</p>
     </div>
-  </div>
 
-  <div class="content">
-    <h3>Parallax</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias voluptate suscipit, laborum, debitis magni expedita iusto ducimus aspernatur non eveniet vero nulla repellat illum! Reprehenderit possimus unde autem inventore distinctio.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ea est provident quo quis debitis quia officiis, magnam eos sint blanditiis rerum quas temporibus modi praesentium! Obcaecati laudantium excepturi nesciunt!
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ratione praesentium, culpa mollitia possimus error et neque amet molestias adipisci alias repellat quos dolor suscipit repudiandae! Vero adipisci dolore deserunt!
-
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias voluptate suscipit, laborum, debitis magni expedita iusto ducimus aspernatur non eveniet vero nulla repellat illum! Reprehenderit possimus unde autem inventore distinctio.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ea est provident quo quis debitis quia officiis, magnam eos sint blanditiis rerum quas temporibus modi praesentium! Obcaecati laudantium excepturi nesciunt!
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ratione praesentium, culpa mollitia possimus error et neque amet molestias adipisci alias repellat quos dolor suscipit repudiandae! Vero adipisci dolore deserunt!
-  </p>
-  </div>
-
-  <div class="caixa3">
-    <div class="conteudo-titulo">
-      <span class="titulo">Caixa 3</span>
-    </div>
-  </div>
-
-  <div class="content">
-    <h3>Parallax</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias voluptate suscipit, laborum, debitis magni expedita iusto ducimus aspernatur non eveniet vero nulla repellat illum! Reprehenderit possimus unde autem inventore distinctio.
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ea est provident quo quis debitis quia officiis, magnam eos sint blanditiis rerum quas temporibus modi praesentium! Obcaecati laudantium excepturi nesciunt!
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ratione praesentium, culpa mollitia possimus error et neque amet molestias adipisci alias repellat quos dolor suscipit repudiandae! Vero adipisci dolore deserunt!
-
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias voluptate suscipit, laborum, debitis magni expedita iusto ducimus aspernatur non eveniet vero nulla repellat illum! Reprehenderit possimus unde autem inventore distinctio.
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit ea est provident quo quis debitis quia officiis, magnam eos sint blanditiis rerum quas temporibus modi praesentium! Obcaecati laudantium excepturi nesciunt!
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ratione praesentium, culpa mollitia possimus error et neque amet molestias adipisci alias repellat quos dolor suscipit repudiandae! Vero adipisci dolore deserunt!
-  </p>
-  </div>
-
-
-</div>
-
-
-
-  <footer class="bg-dark" style="position: relative; top: 70.8%">
-    <div class="container">
-      <div class="row mb-2 p-2 d-flex">
-        <div class="col-10">
-            <a href="#" class="text-white-50 link">AAA</a>
-            <a href="#" class="text-white-50 link">AAA</a>
-            <a href="#" class="text-white-50 link">AAA</a>
-            <a href="#" class="text-white-50 link">AAA</a>
+    <div class="caixa2 mb-4">
+        <div class="conteudo-titulo">
+            <span class="titulo">Caixa 2</span>
         </div>
-        <div class="col-2 mb-2 p-2 rodar-logo">    
-            <a href="" class="text-white-50 link fab fa-instagram fa-lg logo-link" style="margin-right: 10px;">
-            </a>
-            <a href="" class="text-white-50 link fab fa-whatsapp fa-lg logo-link" style="margin-right: 10px;">
-            </a>
-            <a href="" class="text-white-50 link fab fa-facebook fa-lg logo-link" style="margin-right: 10px;">
-            </a>
-            <a href="" class="text-white-50 link fab fa-youtube fa-lg logo-link" style="margin-right: 10px;">
-            </a>
-          </div>
-      </div>
-      <div class="text-center text-white-50 ">
-        &copy;Copyright 2023
-      </div>
+        <img src="{% static 'img/galeria/image2.jpg' %}" alt="Imagem 2" class="img-fluid" style="max-width: 100%;">
     </div>
-  </footer>
 
-   
+    <div class="content mb-4">
+        <h3 class="text-center">Parallax</h3>
+        <p class="text-center">Conteúdo da caixa 2...</p>
+    </div>
 
-    <!-- JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-    <script src="/static/js/plugins.js"></script>
-    <script src="/static/js/ajax-mail.js"></script>
-    <script src="/static/js/main.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
+    <div class="caixa3 mb-4">
+        <div class="conteudo-titulo">
+            <span class="titulo">Caixa 3</span>
+        </div>
+        <img src="{% static 'img/galeria/image3.jpg' %}" alt="Imagem 3" class="img-fluid" style="max-width: 100%;">
+    </div>
 
-</body>
-</html>
+    <div class="content mb-4">
+        <h3 class="text-center">Parallax</h3>
+        <p class="text-center">Conteúdo da caixa 3...</p>
+    </div>
+{% endblock %}
